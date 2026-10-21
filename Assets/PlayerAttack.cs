@@ -8,6 +8,12 @@ public class PlayerAttack : MonoBehaviour
 
     private float cooldownTimer = 0f;
     private Vector2 lastDirection = Vector2.right; // Direction we attack toward
+    private PlayerStamina stamina;
+
+    void Start()
+    {
+        stamina = GetComponent<PlayerStamina>();
+    }
 
     void Update()
     {
@@ -18,7 +24,7 @@ public class PlayerAttack : MonoBehaviour
         if (input != Vector2.zero) lastDirection = input.normalized;
 
         // Left mouse click or J attacks
-        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.J)) && cooldownTimer <= 0f)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Q)) && cooldownTimer <= 0f && stamina.TryUse(20f))
         {
             cooldownTimer = attackCooldown;
             Attack();

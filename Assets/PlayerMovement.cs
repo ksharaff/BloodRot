@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float dodgeSpeed = 14f;
     public float dodgeDuration = 0.2f;
     public float dodgeCooldown = 0.5f;
+    private PlayerStamina stamina;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        stamina = GetComponent<PlayerStamina>();
         rb = GetComponent<Rigidbody2D>();
         
     }
@@ -51,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         {
             lastFacing = moveInput;
         }
-        if(Input.GetKeyDown(KeyCode.LeftShift) && cooldownTimer <= 0f)
+        if(Input.GetKeyDown(KeyCode.Space) && cooldownTimer <= 0f && stamina.TryUse(25f))
         {
             print("dodged!");
             isDodging=true;
