@@ -5,6 +5,7 @@ using Image = UnityEngine.UI.Image;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public GameObject deathScreen; // The "YOU DIED" panel
     public Image healthFront; // red bar (current health)
     public Image healthBack; // orange bar (recoverable health)
     public int maxHealth = 10;
@@ -51,8 +52,10 @@ public class PlayerHealth : MonoBehaviour
         // reload scene when player dies
         if (currentHealth <= 0)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            // Guard so Die() only runs once
+            if (!enabled) return;
+            enabled = false;
+            Die();
         }
     }
 
@@ -76,4 +79,23 @@ public class PlayerHealth : MonoBehaviour
         if(healthBack!=null)
             healthBack.fillAmount = (float)(currentHealth + recoverableHealth) / maxHealth;
     }
+    // Shows the death screen, then reloads the scene after a delay
+void Die()
+{
+    if (deathScreen != null) deathScreen.SetActive(true);
+
+    // Stop the player from moving or attacking
+    GetComponent<PlayerMovement>().enabled = false;
+    GetComponent<PlayerAttack>().enabled = false;
+    GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+
+    // Reload after 2.5 seconds
+    Invoke("Restart", 2.5f);
+}
+
+void Restart()
+{
+    UnityEngine.SceneManagement.SceneManager.LoadScene(
+        UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+}
 }

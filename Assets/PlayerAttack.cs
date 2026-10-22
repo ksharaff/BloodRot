@@ -9,10 +9,12 @@ public class PlayerAttack : MonoBehaviour
     private float cooldownTimer = 0f;
     private Vector2 lastDirection = Vector2.right; // Direction we attack toward
     private PlayerStamina stamina;
+    private HitStop hitStop;
 
     void Start()
     {
         stamina = GetComponent<PlayerStamina>();
+        hitStop = GetComponent<HitStop>();
     }
 
     void Update()
@@ -39,14 +41,14 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            Enemy enemy = hit.GetComponent<Enemy>();
-            // If the thing we hit has an Enemy script, damage it
+            // Works for any enemy type, since all inherit EnemyBase
+            EnemyBase enemy = hit.GetComponent<EnemyBase>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
-
                 GetComponent<PlayerHealth>().RegainHealth();
-            } 
+                hitStop.Stop();
+            }
         }
     }
 
