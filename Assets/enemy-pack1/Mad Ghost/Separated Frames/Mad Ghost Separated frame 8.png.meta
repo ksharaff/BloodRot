@@ -124,12 +124,12 @@ TextureImporter:
       name: Mad Ghost Separated frame 8_0
       rect:
         serializedVersion: 2
-        x: 114
+        x: 115
         y: 4
         width: 117
-        height: 182
+        height: 181
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -151,7 +151,7 @@ TextureImporter:
         width: 32
         height: 62
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -173,7 +173,7 @@ TextureImporter:
         width: 47
         height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -190,7 +190,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 43d5020a086ac4449a3172c244d9d548
     internalID: 0
     vertices: []
     indices: 
@@ -203,6 +203,7 @@ TextureImporter:
       Mad Ghost Separated frame 8_0: 2935595174876874348
       Mad Ghost Separated frame 8_1: 2651293192476792127
       Mad Ghost Separated frame 8_2: -3409708620508679466
+      Mad Ghost Separated frame 8_3: 34057019
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

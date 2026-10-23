@@ -82,7 +82,7 @@ public class PlayerAttack : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(amount);
-                health.RegainHealth();
+                health.RegainHealth(amount);
                 hitStop.Stop();
                 hitSomething = true;
             }

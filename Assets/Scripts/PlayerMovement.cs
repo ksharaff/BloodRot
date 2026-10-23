@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0f, 0.3f)] public float pitchVariation;
 
     [Header("Movement")]
-    public float moveSpeed = 5f;
+    public float moveSpeed = 3f;
     public float runSpeed = 8f;
     public float runStaminaPerSecond = 20f;
 
@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     private bool airDashUsed = false;   // One dash per time in the air
     private float dashTimer, dashCooldownTimer;
 
+    private float knockbackTimer = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -71,6 +73,14 @@ public class PlayerMovement : MonoBehaviour
         {
             inJumpAnim = false;
             anim.PlayLand();
+        }
+
+        // While being knocked back, ignore input
+        if (knockbackTimer > 0f)
+        {
+            knockbackTimer -= Time.deltaTime;
+            IsRunning = false;
+            return;
         }
 
         // While dashing, ignore everything else
@@ -135,6 +145,13 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Don't overwrite the knockback velocity, just let gravity act
+        if (knockbackTimer > 0f)
+        {
+            rb.gravityScale = fallGravity;
+            return;
+        }
+
         if (isDashing)
         {
             rb.gravityScale = 0f;                                   // Dash flies straight
@@ -156,6 +173,14 @@ public class PlayerMovement : MonoBehaviour
         Vector2 center = new Vector2(b.center.x, b.min.y - 0.05f);
         Vector2 size = new Vector2(b.size.x * 0.9f, 0.1f);
         return Physics2D.OverlapBox(center, size, 0f, groundLayer) != null;
+    }
+
+    // Called by PlayerHealth when we get hit
+    public void Knockback(Vector2 velocity, float duration)
+    {
+        isDashing = false;           // A hit cancels a dash
+        knockbackTimer = duration;
+        rb.linearVelocity = velocity; // Launch the player
     }
 
     void PlaySound(AudioClip clip)

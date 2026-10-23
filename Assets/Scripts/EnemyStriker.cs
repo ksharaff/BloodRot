@@ -8,6 +8,7 @@ public class EnemyStriker : EnemyBase
     public float strikeTime = 0.15f;
     public float recoverTime = 0.8f;
     public int damage = 2;
+    public float detectRange = 6f;
 
     private enum State { Chasing, Windup, Strike, Recover }
     private State state = State.Chasing;
@@ -51,7 +52,7 @@ public class EnemyStriker : EnemyBase
 
                     // Hit the player if they're still in range
                     if (distance <= attackRange)
-                        player.GetComponent<PlayerHealth>().TakeDamage(damage);
+                        player.GetComponent<PlayerHealth>().TakeDamage(damage, transform);
                 }
                 break;
 
@@ -87,6 +88,14 @@ public class EnemyStriker : EnemyBase
         if (state == State.Chasing)
         {
             float dx = player.position.x - rb.position.x;
+
+            // Player too far away: stand still
+            if (Mathf.Abs(dx) > detectRange)
+            {
+                rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+                return;
+            }
+
             float dirX = Mathf.Abs(dx) > 0.1f ? Mathf.Sign(dx) : 0f;
             rb.linearVelocity = new Vector2(dirX * moveSpeed, rb.linearVelocity.y);
         }
